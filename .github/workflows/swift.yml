@@ -1,5 +1,5 @@
 
-name: Test Tank-Rechner
+name: Build Tank-Rechner
 
 on:
   workflow_dispatch:
@@ -9,14 +9,15 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: macos-latest
+
     steps:
       - name: Repository herunterladen
         uses: actions/checkout@v4
 
-      - name: Xcode Version prüfen
-        run: xcodebuild -version
+      - name: Xcode Projekte anzeigen
+        run: find . -maxdepth 3 \( -name "*.xcodeproj" -o -name "*.xcworkspace" \)
 
-      - name: Dateien anzeigen
-        run: ls -la
+      - name: Xcode Schemas anzeigen
+        run: xcodebuild -list
