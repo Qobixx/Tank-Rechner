@@ -1,4 +1,5 @@
 
+
 name: Build Tank-Rechner
 
 on:
@@ -16,8 +17,11 @@ jobs:
       - name: Repository herunterladen
         uses: actions/checkout@v4
 
-      - name: Xcode Projekte anzeigen
-        run: find . -maxdepth 3 \( -name "*.xcodeproj" -o -name "*.xcworkspace" \)
+      - name: Xcode Version prüfen
+        run: |
+          xcodebuild -version
+          ls -d /Applications/Xcode*.app
 
-      - name: Xcode Schemas anzeigen
-        run: xcodebuild -list
+      - name: Projektformat prüfen
+        run: |
+          grep -n "compatibilityVersion\|objectVersion" Tank-Rechner.xcodeproj/project.pbxproj
