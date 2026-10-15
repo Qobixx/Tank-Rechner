@@ -1,22 +1,19 @@
-# This workflow will build a Swift project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
-
-name: Swift
+name: Build Tank-Rechner
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+push:
+pull_request:
 
 jobs:
-  build:
+build:
+runs-on: macos-latest
 
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+  - name: Show Xcode projects
+    run: ls -la
+  - name: List schemes
+    run: xcodebuild -list -project "Tank-Rechner.xcodeproj"
+  - name: Build SwiftUI app
+    run: xcodebuild -project "Tank-Rechner.xcodeproj" -scheme "Tank-Rechner" -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO
