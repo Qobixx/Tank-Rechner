@@ -1,19 +1,20 @@
-name: Build Tank-Rechner
+name: Test Tank-Rechner
 
 on:
+workflow_dispatch:
 push:
+branches:
+- main
 pull_request:
 
 jobs:
-build:
+test:
 runs-on: macos-latest
-
 steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
-  - name: Show Xcode projects
+- name: Repository herunterladen
+uses: actions/checkout@v4
+
+  - name: Xcode Version prüfen
+    run: xcodebuild -version
+  - name: Dateien anzeigen
     run: ls -la
-  - name: List schemes
-    run: xcodebuild -list -project "Tank-Rechner.xcodeproj"
-  - name: Build SwiftUI app
-    run: xcodebuild -project "Tank-Rechner.xcodeproj" -scheme "Tank-Rechner" -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO
