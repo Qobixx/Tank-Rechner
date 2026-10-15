@@ -1,20 +1,22 @@
+
 name: Test Tank-Rechner
 
 on:
-workflow_dispatch:
-push:
-branches:
-- main
-pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-test:
-runs-on: macos-latest
-steps:
-- name: Repository herunterladen
-uses: actions/checkout@v4
+  test:
+    runs-on: macos-latest
+    steps:
+      - name: Repository herunterladen
+        uses: actions/checkout@v4
 
-  - name: Xcode Version prüfen
-    run: xcodebuild -version
-  - name: Dateien anzeigen
-    run: ls -la
+      - name: Xcode Version prüfen
+        run: xcodebuild -version
+
+      - name: Dateien anzeigen
+        run: ls -la
