@@ -6,18 +6,27 @@
 //
 
 import SwiftUI
-
+    
 struct ContentView: View {
+    @AppStorage("savedAppColor") private var darstellung_farbe: Color = .blue
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-            Text("Test")
+        TabView{
+            Tab("Rechner", systemImage: "fuelpump.fill"){
+                CalculatorView()
+            }
+            Tab("Verbrauch", systemImage: "car.fill"){
+                ConsumptionView()
+            }
+            Tab("Einstellung", systemImage: "gear"){
+                SettingView(rgbColor: $darstellung_farbe)
+            }
         }
-        .padding()
+        .tint(darstellung_farbe)
+        
+
     }
+        
 }
 
 #Preview {

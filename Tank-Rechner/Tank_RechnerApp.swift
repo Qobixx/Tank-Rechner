@@ -13,5 +13,6 @@ struct Tank_RechnerApp: App {
         WindowGroup {
             ContentView()
         }
+        
     }
 }

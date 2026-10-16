@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct SettingView: View {
+    @Binding var rgbColor: Color
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            Form{
+                Section("Allgemein"){
+                    ColorPicker("Darstellung",selection: $rgbColor)
+                        
+                    }
+                }
+            }
+        }
     }
-}
+
 
 #Preview {
-    SettingView()
+    // Hier erstellen wir einen temporären State für die Vorschau,
+    // damit Xcode glücklich ist und die Ansicht anzeigen kann.
+    @Previewable @State var previewColor = Color.blue
+    SettingView(rgbColor: $previewColor)
 }

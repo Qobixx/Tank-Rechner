@@ -9,7 +9,15 @@ import SwiftUI
 
 struct CalculatorView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            VStack{
+                Text("Dein Tankrechner")
+                    .font(.largeTitle.bold())
+            }
+            .navigationTitle("Tankrechner")
+            
+        }
+        
     }
 }
 
