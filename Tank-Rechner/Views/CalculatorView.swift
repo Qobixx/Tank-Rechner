@@ -17,6 +17,9 @@ struct CalculatorView: View {
     @AppStorage("Sonntag") private var km_sonntag: Double = 0.0
     
     @AppStorage("100kmHVerbauch") private var kmh_Verbrauch: Double = 0.0
+    @AppStorage("SpritPreis") private var sprit_preis: Double = 0.0
+    
+    
     var body: some View {
         NavigationStack{
             Form{
@@ -30,8 +33,10 @@ struct CalculatorView: View {
                     WochenRechner(titel: "Sonntag", Wert: $km_sonntag, einheit: "Km")
                 }
                 Section("Daten"){
-                    WochenRechner(titel: "Ø Verbauch 100/km", Wert: $kmh_Be, einheit: "L/100km")
+                    WochenRechner(titel: "Ø 100km", Wert: $kmh_Verbrauch, einheit: "L/100km")
+                    WochenRechner(titel: "Sprit", Wert: $sprit_preis, einheit: "€")
                 }
+                Text(VerbauchRechner())
             }
             // Zwingt das iPhone, die Tastatur bei jedem Tippen auf den Hintergrund zu schließen:
             .onTapGesture {
