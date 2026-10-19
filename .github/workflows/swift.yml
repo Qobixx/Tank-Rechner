@@ -1,27 +1,63 @@
-
-
-name: Build Tank-Rechner
+name: iOS CI
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
+    branches: [main]
+
+# Laufende Builds für denselben Branch abbrechen, wenn neu gepusht wird
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # >>> HIER ANPASSEN <<<
+  SCHEME: Tank-Rechner               # Name deines Schemes in Xcode
+  PROJECT: Tank-Rechner.xcodeproj     # oder: WORKSPACE: MeineApp.xcworkspace
+  DESTINATION: platform=iOS Simulator,name=iPhone 17
 
 jobs:
-  build:
+  lint:
+    name: SwiftLint
     runs-on: macos-latest
-
     steps:
-      - name: Repository herunterladen
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Xcode Version prüfen
-        run: |
-          xcodebuild -version
-          ls -d /Applications/Xcode*.app
+      - name: SwiftLint installieren
+        run: brew install swiftlint
 
-      - name: Projektformat prüfen
+      - name: Lint ausführen
+        run: swiftlint lint --strict --reporter github-actions-logging
+
+  build-and-test:
+    name: Build & Tests
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode-Version anzeigen
+        run: xcodebuild -version
+
+      - name: Swift Package Manager Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Build und Tests
         run: |
-          grep -n "compatibilityVersion\|objectVersion" Tank-Rechner.xcodeproj/project.pbxproj
+          xcodebuild test \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "$DESTINATION" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Testergebnisse hochladen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: TestResults.xcresult
