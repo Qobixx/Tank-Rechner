@@ -13,8 +13,8 @@ concurrency:
 
 env:
   # >>> HIER ANPASSEN <<<
-  SCHEME: Tank-Rechner               # Name deines Schemes in Xcode
-  PROJECT: Tank-Rechner.xcodeproj     # oder: WORKSPACE: MeineApp.xcworkspace
+  SCHEME: Tank-Rechner
+  PROJECT: Tank-Rechner.xcodeproj
   DESTINATION: platform=iOS Simulator,name=iPhone 17
 
 jobs:
@@ -35,6 +35,11 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Neuere Xcode-Version wählen
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
 
       - name: Xcode-Version anzeigen
         run: xcodebuild -version
