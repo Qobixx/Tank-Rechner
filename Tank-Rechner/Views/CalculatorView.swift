@@ -19,7 +19,6 @@ struct CalculatorView: View {
     @AppStorage("100kmHVerbauch") private var kmh_Verbrauch: Double = 0.0
     @AppStorage("SpritPreis") private var sprit_preis: Double = 0.0
     
-    
     var body: some View {
         NavigationStack{
             Form{
