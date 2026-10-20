@@ -1,9 +1,0 @@
-#
-//  .swiftlint.yml
-//  Tank-Rechner
-//
-//  Created by Jonas Lubbe on 19.10.26.
-//
-
-excluded:
-  - Logik/Color+Extension.swift
