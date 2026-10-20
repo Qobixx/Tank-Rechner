@@ -1,0 +1,32 @@
+name: Spiegeln nach GitHub $(Date:yyyyMMdd)$(Rev:.r)
+
+# Läuft bei jedem Push auf jeden Branch in Azure Repos
+trigger:
+  branches:
+    include:
+      - '*'
+
+# Kein PR-Lauf nötig
+pr: none
+
+variables:
+  # >>> HIER ANPASSEN <<<
+  githubUser: 'Qobixx'
+  githubRepo: 'Tank-Rechner'
+  # Das Token kommt als geheime Variable GITHUB_PAT (siehe Anleitung), nicht hier eintragen!
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self
+    fetchDepth: 0          # komplette Historie holen, sonst klappt der Push nicht
+    persistCredentials: false
+
+  - script: |
+      git push \
+        "https://x-access-token:${GITHUB_PAT}@github.com/$(githubUser)/$(githubRepo).git" \
+        "HEAD:$(Build.SourceBranch)"
+    displayName: Branch nach GitHub pushen
+    env:
+      GITHUB_PAT: $(GITHUB_PAT)   # geheime Variablen müssen explizit übergeben werden
