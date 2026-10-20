@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConsumptionView: View {
     var body: some View {
-        Text("In Arbeit")
+        Text("In Progress")
     }
 }
 
