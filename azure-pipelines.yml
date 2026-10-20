@@ -24,7 +24,7 @@ steps:
     persistCredentials: false
 
   - script: |
-      git push \
+      git push --force \
         "https://x-access-token:${GITHUB_PAT}@github.com/$(githubUser)/$(githubRepo).git" \
         "HEAD:$(Build.SourceBranch)"
     displayName: Branch nach GitHub pushen
