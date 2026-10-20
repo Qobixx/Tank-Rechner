@@ -23,6 +23,7 @@ struct ContentView: View {
             }
         }
         .tint(darstellung_farbe)
+        
     }
         
 }
