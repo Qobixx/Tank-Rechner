@@ -24,6 +24,7 @@ struct CalculatorView: View {
     var body: some View {
         NavigationStack{
             Form{
+                //WochenTage Eingabe
                 Section("Verbrauch der Woche"){
                     WochenRechner(titel: "Montag", Wert: $km_montag, einheit: "Km")
                     WochenRechner(titel: "Dienstag", Wert: $km_dienstag, einheit: "Km")
@@ -33,22 +34,25 @@ struct CalculatorView: View {
                     WochenRechner(titel: "Samstag", Wert: $km_samstag, einheit: "Km")
                     WochenRechner(titel: "Sonntag", Wert: $km_sonntag, einheit: "Km")
                 }.listRowBackground(Form_Color)
-
+                //Daten Eingabe Verbrauch sowie Sprit kosten
                 Section("Daten"){
                     WochenRechner(titel: "Verbrauch", Wert: $kmh_Verbrauch, einheit: "L/100km")
                     WochenRechner(titel: "Sprit", Wert: $sprit_preis, einheit: "€")
                 }.listRowBackground(Form_Color)
+                //Ausgabe berechnet den Wochenvebrauch sowie Preis
                 Section("Ausgabe"){
+                    //Wochen km
                     HStack{
                         Text("Wochen Km")
                         Spacer()
-                        Text(VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag))
+                        Text(VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag)+" km")
                     }.listRowBackground(Form_Color)
 
+                    //Preis
                     HStack{
                         Text("Preis")
                         Spacer()
-                        Text(PreisRechner(wochenkm: VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag),verbrauch_prokm: kmh_Verbrauch, preis_l: sprit_preis))
+                        Text(PreisRechner(wochenkm: VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag),verbrauch_prokm: kmh_Verbrauch, preis_l: sprit_preis)+"€")
                     }.listRowBackground(Form_Color)
                     
                 }
