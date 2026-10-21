@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CalculatorView: View {
+    @Binding var Form_Color: Color
+    
     @AppStorage("Montag") private var km_montag: Double = 0.0
     @AppStorage("Dienstag") private var km_dienstag: Double = 0.0
     @AppStorage("Mittwoch") private var km_mittwoch: Double = 0.0
@@ -30,26 +32,30 @@ struct CalculatorView: View {
                     WochenRechner(titel: "Freitag", Wert: $km_freitag, einheit: "Km")
                     WochenRechner(titel: "Samstag", Wert: $km_samstag, einheit: "Km")
                     WochenRechner(titel: "Sonntag", Wert: $km_sonntag, einheit: "Km")
-                }
+                }.listRowBackground(Form_Color)
+
                 Section("Daten"){
                     WochenRechner(titel: "Verbrauch", Wert: $kmh_Verbrauch, einheit: "L/100km")
                     WochenRechner(titel: "Sprit", Wert: $sprit_preis, einheit: "€")
-                }
+                }.listRowBackground(Form_Color)
                 Section("Ausgabe"){
                     HStack{
                         Text("Wochen Km")
                         Spacer()
                         Text(VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag))
-                    }
+                    }.listRowBackground(Form_Color)
+
                     HStack{
                         Text("Preis")
                         Spacer()
                         Text(PreisRechner(wochenkm: VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag),verbrauch_prokm: kmh_Verbrauch, preis_l: sprit_preis))
-                    }
+                    }.listRowBackground(Form_Color)
                     
                 }
                 
             }
+          
+
             // Zwingt das iPhone, die Tastatur bei jedem Tippen auf den Hintergrund zu schließen:
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -62,5 +68,6 @@ struct CalculatorView: View {
 }
 
 #Preview {
-    CalculatorView()
+    @Previewable @State var preview = Color(.systemGray6)
+    CalculatorView(Form_Color: $preview)
 }
