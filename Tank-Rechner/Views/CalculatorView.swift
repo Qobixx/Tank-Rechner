@@ -32,10 +32,23 @@ struct CalculatorView: View {
                     WochenRechner(titel: "Sonntag", Wert: $km_sonntag, einheit: "Km")
                 }
                 Section("Daten"){
-                    WochenRechner(titel: "Ø 100km", Wert: $kmh_Verbrauch, einheit: "L/100km")
+                    WochenRechner(titel: "Verbrauch", Wert: $kmh_Verbrauch, einheit: "L/100km")
                     WochenRechner(titel: "Sprit", Wert: $sprit_preis, einheit: "€")
                 }
-                Text(VerbauchRechner())
+                Section("Ausgabe"){
+                    HStack{
+                        Text("Wochen Km")
+                        Spacer()
+                        Text(VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag))
+                    }
+                    HStack{
+                        Text("Preis")
+                        Spacer()
+                        Text(PreisRechner(wochenkm: VerbauchRechner(montag: km_montag, dienstag: km_dienstag, mittwoch: km_mittwoch, donnerstag: km_donnerstag, freitag: km_freitag, samstag: km_samstag, sonntag: km_sonntag),verbrauch_prokm: kmh_Verbrauch, preis_l: sprit_preis))
+                    }
+                    
+                }
+                
             }
             // Zwingt das iPhone, die Tastatur bei jedem Tippen auf den Hintergrund zu schließen:
             .onTapGesture {
