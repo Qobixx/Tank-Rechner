@@ -28,9 +28,18 @@ struct WochenRechner: View{
     
 }
 
-func VerbauchRechner(montag:Double, dienstag:Double, mittwoch:Double, donnerstag:Double, freitag:Double, samstag:Double, sonntag:Double) -> String{
+func VerbauchWochen(montag:Double, dienstag:Double, mittwoch:Double, donnerstag:Double, freitag:Double, samstag:Double, sonntag:Double) -> String{
     let wochenkm = montag + dienstag + mittwoch + donnerstag + freitag + samstag + sonntag
     let formatiert = String(format: "%.0f", wochenkm)
+    return formatiert
+}
+
+func WochenLiter(wochenkm:String, verbrauch_prokm:Double) -> String{
+    guard let wochen_km = Double(wochenkm) else{
+        return "Falsche Eingabe"
+    }
+    let preis = wochen_km / 100 * verbrauch_prokm
+    let formatiert = String(format: "%.2f", preis)
     return formatiert
 }
 

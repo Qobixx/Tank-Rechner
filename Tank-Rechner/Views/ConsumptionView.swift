@@ -16,3 +16,4 @@ struct ConsumptionView: View {
 #Preview {
     ConsumptionView()
 }
+
