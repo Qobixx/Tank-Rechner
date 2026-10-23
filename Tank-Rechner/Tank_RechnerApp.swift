@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Tank_RechnerApp: App {
@@ -13,6 +14,6 @@ struct Tank_RechnerApp: App {
         WindowGroup {
             ContentView()
         }
-        
+        .modelContainer(for: Tankvorgang.self)
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
     
-struct ContentView: View {
+struct ContentView: View {	
     @AppStorage("savedAppColor") private var darstellung_farbe: Color = .blue
     @AppStorage("FormColor") private var form_farbe: Color = Color(.systemGray6)
     
