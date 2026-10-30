@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ConsumptionView: View {
+struct VerbrauchView: View {
     @Query(sort: \Tankvorgang.Datum, order: .reverse) var tankvorgaenge: [Tankvorgang]
     @Environment(\.modelContext) private var context
     @State private var zeigeHinzufuegen = false
@@ -47,7 +47,7 @@ struct ConsumptionView: View {
 }
 
 #Preview {
-    ConsumptionView()
+    VerbrauchView()
         .modelContainer(for: Tankvorgang.self, inMemory: true)
 }
 

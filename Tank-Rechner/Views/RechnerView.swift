@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CalculatorView: View {
+struct RechnerView: View {
     @Binding var Form_Color: Color
     
     @AppStorage("Montag") private var km_montag: Double = 0.0
@@ -80,5 +80,5 @@ struct CalculatorView: View {
 
 #Preview {
     @Previewable @State var preview = Color(.systemGray6)
-    CalculatorView(Form_Color: $preview)
+    RechnerView(Form_Color: $preview)
 }

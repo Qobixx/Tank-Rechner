@@ -14,10 +14,10 @@ struct ContentView: View {
     var body: some View {
         TabView{
             Tab("Rechner", systemImage: "fuelpump.fill"){
-                CalculatorView(Form_Color: $form_farbe)
+                RechnerView(Form_Color: $form_farbe)
             }
             Tab("Verbrauch", systemImage: "car.fill"){
-                ConsumptionView()
+                VerbrauchView()
             }
             Tab("Einstellung", systemImage: "gear"){
                 SettingView(rgbColor_HotBar: $darstellung_farbe, rgbColor_Form: $form_farbe)
