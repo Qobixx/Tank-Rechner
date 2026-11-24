@@ -29,9 +29,22 @@
 		DD2E0FB530801F5B0014858F /* Tank-RechnerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tank-RechnerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DD9655CF309F8EA800731C29 /* Exceptions for "Tank-Rechner" folder in "Tank-Rechner" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DD2E0F9D30801F5A0014858F /* Tank-Rechner */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DD2E0FA030801F5A0014858F /* Tank-Rechner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD9655CF309F8EA800731C29 /* Exceptions for "Tank-Rechner" folder in "Tank-Rechner" target */,
+			);
 			path = "Tank-Rechner";
 			sourceTree = "<group>";
 		};
@@ -374,6 +387,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Tank-Rechner/Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Wir benötigen dein Standort ";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -418,6 +433,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Tank-Rechner/Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Wir benötigen dein Standort ";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

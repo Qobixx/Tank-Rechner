@@ -12,6 +12,7 @@ struct VerbrauchView: View {
     @Query(sort: \Tankvorgang.Datum, order: .reverse) var tankvorgaenge: [Tankvorgang]
     @Environment(\.modelContext) private var context
     @State private var zeigeHinzufuegen = false
+    @State private var zeigeTankstellen = false
     
     var body: some View {
         NavigationStack{
@@ -33,9 +34,14 @@ struct VerbrauchView: View {
             .navigationTitle("Verbrauch")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
-                ToolbarItem(placement: .topBarTrailing){
+                ToolbarItemGroup(placement: .topBarTrailing){
                     Button("Tanken", systemImage: "plus"){
                         zeigeHinzufuegen = true
+                    }
+                    NavigationLink{
+                        TankstellenView()
+                    } label: {
+                        Image(systemName: "fuelpump")
                     }
                 }
             }
