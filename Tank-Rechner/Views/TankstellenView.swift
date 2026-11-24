@@ -64,7 +64,7 @@ struct TankstellenView: View {
                     List(tankstellenList) { tankstelle in
                         let aktuellerPreis = preisFuerKraftstoff(tankstelle: tankstelle)
                         if let preis = aktuellerPreis {
-                            TankstellenZeile(TankstelleName: tankstelle.name, preis: preis, strasse: tankstelle.street, ort: tankstelle.place, open: tankstelle.isOpen)
+                            TankstellenZeile(TankstelleName: tankstelle.name, preis: preis, strasse: tankstelle.street, ort: tankstelle.place, open: tankstelle.isOpen, lat: tankstelle.lat, lng: tankstelle.lng)
                         } else {
                             Text("Preis derzeit nicht verfügbar").foregroundColor(.gray)
                         }
@@ -94,21 +94,21 @@ struct TankstellenView: View {
     
     
     // Die Debounce-Funktion
-        private func triggerDebouncedLoad() {
-            // Vorherigen Timer sofort abbrechen, falls der Nutzer weitergeklickt hat
-            debounceTask?.cancel()
+    private func triggerDebouncedLoad() {
+        // Vorherigen Timer sofort abbrechen, falls der Nutzer weitergeklickt hat
+        debounceTask?.cancel()
+        
+        debounceTask = Task {
+            // 0,6 Sekunden (600 Millisekunden) warten, ob der Nutzer noch klickt
+            try? await Task.sleep(nanoseconds: 600_000_000)
             
-            debounceTask = Task {
-                // 0,6 Sekunden (600 Millisekunden) warten, ob der Nutzer noch klickt
-                try? await Task.sleep(nanoseconds: 600_000_000)
-                
-                // Prüfen, ob der Task in der Zwischenzeit abgebrochen wurde
-                if Task.isCancelled { return }
-                
-                // Erst jetzt wird die echte Ladefunktion ausgeführt!
-                await ladeDaten()
-            }
+            // Prüfen, ob der Task in der Zwischenzeit abgebrochen wurde
+            if Task.isCancelled { return }
+            
+            // Erst jetzt wird die echte Ladefunktion ausgeführt!
+            await ladeDaten()
         }
+    }
     
     // Zentrale Lade-Funktion mit funktionierendem try/catch
     private func ladeDaten() async {
