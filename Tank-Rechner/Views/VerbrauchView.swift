@@ -11,42 +11,57 @@ import SwiftData
 struct VerbrauchView: View {
     @Query(sort: \Tankvorgang.Datum, order: .reverse) var tankvorgaenge: [Tankvorgang]
     @Environment(\.modelContext) private var context
+    
+    // States für die Sheets
     @State private var zeigeHinzufuegen = false
+    @State private var ausgewaehlterVorgang: Tankvorgang? = nil // Hält den Vorgang fest, der bearbeitet werden soll
     @State private var zeigeTankstellen = false
     
     var body: some View {
-        NavigationStack{
-            List{
+        NavigationStack {
+            List {
                 ForEach(tankvorgaenge) { tanken in
-                    TankvorgangZeile(tanken: tanken)
+                    Button {
+                        // Wenn auf eine Zeile getippt wird, öffnen wir den Bearbeitungsmodus
+                        ausgewaehlterVorgang = tanken
+                    } label: {
+                        TankvorgangZeile(tanken: tanken)
+                    }
+                    .buttonStyle(.plain) // Verhindert, dass die ganze Zeile standardmäßig grau/blau eingefärbt wird
                 }
-                .onDelete{
-                    offsets in for index in offsets{
+                .onDelete { offsets in
+                    for index in offsets {
                         context.delete(tankvorgaenge[index])
                     }
                 }
             }
-            .overlay{
+            .overlay {
                 if tankvorgaenge.isEmpty {
-                    ContentUnavailableView("Noch nichts getankt", systemImage: "fuelpump", description: Text("Tipp auf +, um ein Tankvorgang hinzufügen."))
+                    ContentUnavailableView("Noch nichts getankt", systemImage: "fuelpump", description: Text("Tipp auf +, um einen Tankvorgang hinzuzufügen."))
                 }
             }
             .navigationTitle("Verbrauch")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar{
-                ToolbarItemGroup(placement: .topBarTrailing){
-                    Button("Tanken", systemImage: "plus"){
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button("Tanken", systemImage: "plus") {
+                        ausgewaehlterVorgang = nil // Sicherstellen, dass kein alter Vorgang im Speicher hängt -> Hinzufügen-Modus
                         zeigeHinzufuegen = true
                     }
-                    NavigationLink{
+                    NavigationLink {
                         TankstellenView()
                     } label: {
                         Image(systemName: "fuelpump")
                     }
                 }
             }
-            .sheet(isPresented: $zeigeHinzufuegen){
-                TankvorgangHinzufuegenView()
+            // Sheet fürs Hinzufügen (wenn auf das "+"-Icon geklickt wird)
+            .sheet(isPresented: $zeigeHinzufuegen) {
+                TankvorgangHinzufuegenView(bestehenderVorgang: nil)
+            }
+            // Sheet fürs Bearbeiten (wenn auf eine Zeile geklickt wird)
+            .sheet(item: $ausgewaehlterVorgang) { vorgang in
+                TankvorgangHinzufuegenView(bestehenderVorgang: vorgang)
             }
         }
     }
@@ -56,4 +71,3 @@ struct VerbrauchView: View {
     VerbrauchView()
         .modelContainer(for: Tankvorgang.self, inMemory: true)
 }
-
