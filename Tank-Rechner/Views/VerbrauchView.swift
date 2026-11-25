@@ -237,6 +237,7 @@ struct VerbrauchView: View {
 
 // Statistik-Karte
 struct StatistikKarte: View {
+    var titel: String? = nil
     let wert: String
     let icon: String
     let farbe: Color
@@ -250,9 +251,16 @@ struct StatistikKarte: View {
                 .background(farbe.opacity(0.12))
                 .clipShape(Circle())
             
-            Text(wert)
-                .font(.subheadline)
-                .fontWeight(.bold)
+            VStack(alignment: .leading, spacing: 2) {
+                if let titel {
+                    Text(titel)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Text(wert)
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+            }
             
             Spacer()
         }

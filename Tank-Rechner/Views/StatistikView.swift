@@ -8,8 +8,6 @@ import SwiftData
 import Charts
 
 struct StatistikView: View {
-    @Binding var Form_Color: Color
-
     @Query(sort: \Tankvorgang.Datum) private var tankvorgaenge: [Tankvorgang]
 
     private var statistik: Statistik {
@@ -25,54 +23,65 @@ struct StatistikView: View {
     }
 
     var body: some View {
-        NavigationStack{
-            Form{
-                if tankvorgaenge.isEmpty {
-                    Section{
-                        ContentUnavailableView("Noch keine Daten",
-                                               systemImage: "chart.bar",
-                                               description: Text("Trage Tankvorgänge ein, um Statistiken zu sehen."))
-                    }.listRowBackground(Form_Color)
-                } else {
-                    //Gesamtübersicht
-                    Section("Gesamt"){
-                        LabeledContent("Gesamtkosten", value: euro(statistik.gesamtKosten))
-                        LabeledContent("Gesamtliter", value: liter(statistik.gesamtLiter))
-                        LabeledContent("Tankvorgänge", value: "\(statistik.anzahl)")
-                        LabeledContent("Dieser Monat", value: euro(statistik.kostenDiesenMonat))
-                    }.listRowBackground(Form_Color)
-
-                    //Durchschnittswerte
-                    Section("Durchschnitt"){
-                        LabeledContent("Literpreis", value: euro(statistik.durchschnittLiterpreis, stellen: 3))
-                        LabeledContent("Kosten pro Tanken", value: euro(statistik.durchschnittKostenProTanken))
-                        LabeledContent("Menge pro Tanken", value: liter(statistik.durchschnittLiterProTanken))
-                    }.listRowBackground(Form_Color)
-
-                    //Preisspanne
-                    Section("Literpreis"){
-                        LabeledContent("Günstigster", value: euro(statistik.guenstigsterLiterpreis ?? 0, stellen: 3))
-                        LabeledContent("Teuerster", value: euro(statistik.teuersterLiterpreis ?? 0, stellen: 3))
-                    }.listRowBackground(Form_Color)
+        NavigationStack {
+            VStack(spacing: 0) {
+                List {
+                    //Statistik-Kacheln (wie in VerbrauchView)
+                    Section {
+                        VStack(spacing: 12) {
+                            HStack(spacing: 12) {
+                                StatistikKarte(titel: "Gesamtkosten", wert: euro(statistik.gesamtKosten), icon: "eurosign.circle.fill", farbe: .blue)
+                                StatistikKarte(titel: "Gesamtliter", wert: liter(statistik.gesamtLiter), icon: "fuelpump.fill", farbe: .orange)
+                            }
+                            HStack(spacing: 12) {
+                                StatistikKarte(titel: "Ø Literpreis", wert: euro(statistik.durchschnittLiterpreis, stellen: 3), icon: "chart.line.uptrend.xyaxis", farbe: .purple)
+                                StatistikKarte(titel: "Tankvorgänge", wert: "\(statistik.anzahl)", icon: "number.circle.fill", farbe: .green)
+                            }
+                            HStack(spacing: 12) {
+                                StatistikKarte(titel: "Ø pro Tanken", wert: euro(statistik.durchschnittKostenProTanken), icon: "creditcard.fill", farbe: .teal)
+                                StatistikKarte(titel: "Ø Menge", wert: liter(statistik.durchschnittLiterProTanken), icon: "drop.fill", farbe: .cyan)
+                            }
+                            HStack(spacing: 12) {
+                                StatistikKarte(titel: "Günstigster Preis", wert: euro(statistik.guenstigsterLiterpreis ?? 0, stellen: 3), icon: "arrow.down.circle.fill", farbe: .green)
+                                StatistikKarte(titel: "Teuerster Preis", wert: euro(statistik.teuersterLiterpreis ?? 0, stellen: 3), icon: "arrow.up.circle.fill", farbe: .red)
+                            }
+                            StatistikKarte(titel: "Dieser Monat", wert: euro(statistik.kostenDiesenMonat), icon: "calendar", farbe: .indigo)
+                        }
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                    }
 
                     //Diagramm Kosten pro Monat
-                    Section("Kosten pro Monat"){
-                        Chart(statistik.monate){ monat in
+                    Section("Kosten pro Monat") {
+                        Chart(statistik.monate) { monat in
                             BarMark(x: .value("Monat", monat.monat, unit: .month),
                                     y: .value("Kosten", monat.kosten))
                                 .foregroundStyle(.tint)
                                 .cornerRadius(4)
                         }
                         .frame(height: 200)
-                    }.listRowBackground(Form_Color)
+                    }
+                }
+                .listStyle(.insetGrouped)
+            }
+            .background(Color(.systemGroupedBackground))
+            .overlay {
+                if tankvorgaenge.isEmpty {
+                    ContentUnavailableView(
+                        "Keine Einträge",
+                        systemImage: "chart.bar",
+                        description: Text("Trage Tankvorgänge ein, um Statistiken zu sehen.")
+                    )
+                    .background(Color(.systemGroupedBackground))
                 }
             }
+            .navigationTitle("Statistik")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
 #Preview {
-    @Previewable @State var preview = Color(.systemGray6)
-    StatistikView(Form_Color: $preview)
+    StatistikView()
         .modelContainer(for: Tankvorgang.self, inMemory: true)
 }
