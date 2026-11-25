@@ -19,6 +19,9 @@ struct ContentView: View {
             Tab("Verbrauch", systemImage: "car.fill"){
                 VerbrauchView()
             }
+            Tab("Statistik", systemImage: "chart.bar.fill"){
+                StatistikView()
+            }
             Tab("Einstellung", systemImage: "gear"){
                 SettingView(rgbColor_HotBar: $darstellung_farbe, rgbColor_Form: $form_farbe)
             }
