@@ -20,7 +20,7 @@ struct ContentView: View {
                 VerbrauchView()
             }
             Tab("Statistik", systemImage: "chart.bar.fill"){
-                StatistikView()
+                StatistikView(Form_Color: $form_farbe)
             }
             Tab("Einstellung", systemImage: "gear"){
                 SettingView(rgbColor_HotBar: $darstellung_farbe, rgbColor_Form: $form_farbe)
