@@ -42,7 +42,7 @@ struct StatistikView: View {
                     .padding()
                 }
             }
-            .background(Color(.systemGroupedBackground))
+            .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .navigationTitle("Statistik")
             .navigationBarTitleDisplayMode(.inline)
         }
