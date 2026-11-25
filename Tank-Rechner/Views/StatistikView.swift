@@ -75,7 +75,6 @@ struct StatistikView: View {
                     .background(Color(.systemGroupedBackground))
                 }
             }
-            .navigationTitle("Statistik")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
